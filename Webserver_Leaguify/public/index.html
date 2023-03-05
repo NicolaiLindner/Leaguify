@@ -10,6 +10,7 @@
         <img src="../static/Amogus.png" alt="img" class="main-image" />
         <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+        <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
         <aside>
             <div class="menu-btn">
                 <span class="material-icons-outlined">
@@ -99,7 +100,8 @@
                         <div class="item">
                             <h4>DEVELOPMENT NEWS</h4>
                             <small>
-                                Front end - HTML start page and CSS, and Java Script dynamic website functions @Nicolai Lindner
+                                Front end - HTML start page and CSS, and Java Script dynamic website functions @Nicolai
+                                Lindner
                             </small>
                             <small>
                                 March 03-05
@@ -108,7 +110,8 @@
                         </div>
                         <div class="item item-centered">
                             <small>
-                                Back end - Building the infrastructure with Git and Github and the main pipelines @Moritz Palm
+                                Back end - Building the infrastructure with Git and Github and the main pipelines
+                                @Moritz Palm
                             </small>
                             <small>
                                 March 03-05
@@ -125,7 +128,8 @@
                                 We added the html browsing
                                 <span class="sub-title">
                                     We added some nice good looking animations and mobile functionality
-                                </span>, also we started adding the first page for our project and started with the database
+                                </span>, also we started adding the first page for our project and started with the
+                                database
                             </small>
                             <a href="#">Read More</a>
                         </div>
@@ -142,8 +146,7 @@
                 <li><a href="#">Extra Space 4</a></li>
             </ul>
             <ul>
-                <li><a href="index.html"
-                       class="link-active">Home</a></li>
+                <li><a href="index.html" class="link-active">Home</a></li>
                 <li><a href="#">Project 1</a></li>
                 <li><a href="#">Project 2</a></li>
                 <li><a href="#">Project 3</a></li>
@@ -163,7 +166,57 @@
             </ul>
         </div>
     </header>
-    
+    <script>
+        //Navbar / Sidebar Menu
+        const menuBtn = document.querySelectorAll('.menu-btn');
+        const menu = document.querySelector('.menu');
+        const links = document.querySelectorAll('.menu li');
+
+        //Open and shut the sidebar
+        menuBtn.forEach(btn => {
+            btn.addEventListener('click', sideNavToggle);
+        });
+
+        function sideNavToggle(){
+            //Menu popup delay
+            let delay = 100;
+            //Toggle open class
+            menu.classList.toggle('menu-open');
+
+            //Sidenav Link Slide Animation
+            setTimeout(() => {
+            //Reset animations after all of them end
+            resetAnimations();
+            }, delay * (links.length +1));
+
+            //Link animation
+            links.forEach(link  => {
+                //Opacity
+                link.style.opacity ="0";
+                //Animation
+                link.style.animation = "slideIn 400ms ease-in-out forwards";
+                //Delay
+                link.style.animationDelay = delay + "ms";
+
+                //Icrease delay for each links
+                delay += 100;
+            });
+               
+            /* Reset animations so they can be activated again*/
+            function resetAnimations() {
+                //Select all links
+                links.forEach(link => {
+                    //Remove animation
+                    link.style.animation ="none";
+                    //Set opacity to default
+                    link.style.opacity = "1";
+                });
+            }
+        }  
+    </script>
+
+
+
 </body>
 
 </html>
