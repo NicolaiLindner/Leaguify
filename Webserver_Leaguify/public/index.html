@@ -213,8 +213,109 @@
                 });
             }
         }  
-    </script>
 
+        //Slider for different topics -> Animation
+        const cntrl = document.querySelectorAll('.slider-cntrl');
+        const cntrlMob = document.querySelectorAll('.pagination-mobile > li')
+        const title = document.querySelector('.title');
+        const subTitle = document.querySelector('.sub-title');
+        const img = document.querySelector('.thumbnail');
+        const count = document.querySelector('.slider-count');
+        const progress = document.querySelector('.progress div');
+
+        let id = 0;
+
+        //Data
+        //Array with images paths for the sliders
+        const images = [
+            '../static/Pepe1.png',
+            '../static/Pepe1.png',
+            '../static/Pepe1.png',
+        ];
+
+        const progressWidth = [
+            '33%',
+            '66%',
+            '100%',
+        ];
+
+        //Text variations for the slider
+        const text = [
+            'Analyse Your Gameplay!',
+            'Get A Spotify Playlist',
+            'Future Project',
+        ];
+
+        //Pagination Controls
+        for(let i=0; i<cntrl.length; i++) {
+            //Add event for all pag. after someone clicks
+            cntrl[i].addEventListener('click', () => {
+                //Run the slider function
+                slider(i);
+                //Set id to clicked pagination index
+                id = i;
+                //Stop auto slide
+                stopAutoSlide();
+            });
+            //Click event for pag. on mobile devices
+            cntrlMob[i].addEventListener('click', () => {
+                //Run slider fnc
+                slider(i);
+                //Set id to clicked pagination index
+                id = i;
+                //Stop auto slide
+                stopAutoSlide();
+            });
+        }
+
+        function slider(i) {
+            //Changes the imagine in the thumbnail
+            img.src=images[i];
+            //Progress progression animation
+            progress.style.width = progressWidth[i];
+            //Change the title!
+            title.innerText = text[i];
+            //Change Sub Title
+            subTitle.forEach(sub => {
+                sub.innerText = text[i] + "Test";
+            });
+            
+            //Change the slide number above (/01->/02)
+            count.innerText = "/0" + (i + 1);
+
+            //Remove active class from all
+            for(let i=0; i < cntrl.length; i++) {
+                cntrl[i].classList.remove('active');
+                cntrlMob[i].classList.remove('pag-active');
+            }
+            //Reset active class to clicked element
+            cntrl[i].classList.add('active');
+            cntrlMob[i].classList.add('pag-active');
+        }
+
+        //Slider Automation
+        function nextSlide() {
+            //Increment img id
+            id++;
+            if (id > cntrl.length - 1) {
+                id=0;
+            }
+            //Run slider fnc
+            slider(id);
+
+            //Automate slider
+            let autoSlide = setInterval(nextSlide, 1000);
+
+            //Stop automatic slide
+            function stopAutoSlide() {
+                clearInterval(autoSlide);
+            }
+
+            //Restart auto slider
+            autoSlide = setInterval(nextSlide, 10000);
+        }
+
+    </script>
 
 
 </body>
