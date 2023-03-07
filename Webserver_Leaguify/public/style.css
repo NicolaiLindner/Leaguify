@@ -342,6 +342,14 @@
         transform: translateX(0);
     }
   }
+  
+
+  /* Look of the searchbar*/
+  .containerSearchbar {
+    width: 100%;
+    min-height: 100vh;
+    padding: 5%;
+  }
 
   
 
