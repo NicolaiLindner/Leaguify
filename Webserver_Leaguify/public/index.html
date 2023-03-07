@@ -33,7 +33,7 @@
                         </a>
                     </div>
                     <ul>
-                        <li><a href="index2.html" class="link-active">Home</a>
+                        <li><a href="index.html" class="link-active">Home</a></li>
                         <li><a href="#">Projekt 1</a></li>
                         <li><a href="#">Projekt 2</a></li>
                         <li><a href="#">Projekt 3</a></li>
@@ -216,7 +216,7 @@
 
         //Slider for different topics -> Animation
         const cntrl = document.querySelectorAll('.slider-cntrl');
-        const cntrlMob = document.querySelectorAll('.pagination-mobile > li')
+        const cntrlMob = document.querySelectorAll('.pagination-mobile > li');
         const title = document.querySelector('.title');
         const subTitle = document.querySelector('.sub-title');
         const img = document.querySelector('.thumbnail');
@@ -247,7 +247,7 @@
         ];
 
         //Pagination Controls
-        for(let i=0; i<cntrl.length; i++) {
+        for(let i = 0; i < cntrl.length; i++) {
             //Add event for all pag. after someone clicks
             cntrl[i].addEventListener('click', () => {
                 //Run the slider function
@@ -284,7 +284,7 @@
             count.innerText = "/0" + (i + 1);
 
             //Remove active class from all
-            for(let i=0; i < cntrl.length; i++) {
+            for(let i = 0; i < cntrl.length; i++) {
                 cntrl[i].classList.remove('active');
                 cntrlMob[i].classList.remove('pag-active');
             }

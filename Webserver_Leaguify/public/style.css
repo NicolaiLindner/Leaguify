@@ -134,7 +134,7 @@
     justify-content: space-between;
     align-items: center;
     flex-direction: column;
-    border-right: 1px #373739 solud;
+    border-right: 1px #373739 solid;
     position: relative;
     z-index: 1;
   }
@@ -157,7 +157,7 @@
     position: absolute;
     top: 0;
     left: -20em;
-    transition: 500ms cubic-bezier(.74,-0.03,.83,.67);
+    transition: 300ms cubic-bezier(.74,-0.03,.83,.67);
     overflow-y: scroll;
     overflow-x: hidden;
     z-index: 0;
@@ -173,7 +173,7 @@
     border-bottom: 1px #191919 solid;
   }
 
-  .menu open {
+  .menu-open {
     left: 6em;
   }
 
