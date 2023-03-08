@@ -1,3 +1,6 @@
 node_modules/
 postgres-docker/
 package-lock.json
+.env
+migrations/
+__pycache__
