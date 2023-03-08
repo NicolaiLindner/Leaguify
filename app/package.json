@@ -2,11 +2,11 @@
   "name": "leaguify",
   "version": "1.0.0",
   "description": "A website where you can use your League of Legends username to see different gameplay analytics and matching spotify playlists",
-  "main": "server.js",
+  "main": "src/server.js",
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node src/server.js"
   },
   "repository": {
     "type": "git",
