@@ -7,7 +7,7 @@
 
 <body>
     <header>
-        <img src="../static/Amogus.png" alt="img" class="main-image" />
+        <img src="../img/Amogus.png" alt="img" class="main-image" />
         <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
         <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
@@ -164,6 +164,17 @@
                 <li><a href="#">Tw</a></li>
             </ul>
         </div>
+        <!--Chatbotintegration in html-->
+        <div id="chatbox">
+            <div id="chat-history">
+                <!-- Chat history messages go here -->
+            </div>
+            <div id="chat-input">
+                <input type="text" placeholder="Type a message...">
+                <button>Send</button>
+            </div>
+        </div>
+
     </header>
     <script>
         //Navbar / Sidebar Menu
@@ -176,7 +187,7 @@
             btn.addEventListener('click', sideNavToggle);
         });
 
-        function sideNavToggle(){
+        function sideNavToggle() {
             //Menu popup delay
             let delay = 100;
             //Toggle open class
@@ -184,14 +195,14 @@
 
             //Sidenav Link Slide Animation
             setTimeout(() => {
-            //Reset animations after all of them end
-            resetAnimations();
-            }, delay * (links.length +1));
+                //Reset animations after all of them end
+                resetAnimations();
+            }, delay * (links.length + 1));
 
             //Link animation
-            links.forEach(link  => {
+            links.forEach(link => {
                 //Opacity
-                link.style.opacity ="0";
+                link.style.opacity = "0";
                 //Animation
                 link.style.animation = "slideIn 400ms ease-in-out forwards";
                 //Delay
@@ -200,18 +211,18 @@
                 //Icrease delay for each links
                 delay += 100;
             });
-               
+
             /* Reset animations so they can be activated again*/
             function resetAnimations() {
                 //Select all links
                 links.forEach(link => {
                     //Remove animation
-                    link.style.animation ="none";
+                    link.style.animation = "none";
                     //Set opacity to default
                     link.style.opacity = "1";
                 });
             }
-        }  
+        }
 
         //Slider for different topics -> Animation
         const cntrl = document.querySelectorAll('.slider-cntrl');
@@ -279,7 +290,7 @@
             });
 
             //Change slide number
-            count.innerText = "/0" + (i+1);
+            count.innerText = "/0" + (i + 1);
 
             //Remove active class from all
             for (let i = 0; i < cntrl.length; i++) {
@@ -313,6 +324,35 @@
             //Restart Auto Slider
             autoSlide = setInterval(nextSlide, 10000)
         }
+
+
+
+
+        //Chatbot + window functionality
+
+        var chatbox = document.getElementById("chatbox");
+        var isDragging = false;
+        var offset = {
+            x: 0,
+            y: 0
+        };
+
+        chatbox.addEventListener("mousedown", function (e) {
+            isDragging = true;
+            offset.x = e.offsetX;
+            offset.y = e.offsetY;
+        });
+
+        document.addEventListener("mousemove", function (e) {
+            if (isDragging) {
+                chatbox.style.left = e.pageX - offset.x + "px";
+                chatbox.style.top = e.pageY - offset.y + "px";
+            }
+        });
+
+        document.addEventListener("mouseup", function () {
+            isDragging = false;
+        });
     </script>
 
 
