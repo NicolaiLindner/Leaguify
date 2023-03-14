@@ -33,9 +33,9 @@
                         </a>
                     </div>
                     <ul>
-                        <li><a href="index.html" class="link-active">Home</a></li>
+                        <li><a href="index.html">Home</a></li>
                         <li><a href="project1.html">Project 1</a></li>
-                        <li><a href="project2.html">Project 2</a></li>
+                        <li><a href="project2.html" class="link-active">Project 2</a></li>
                         <li><a href="project3.html">Project 3</a></li>
                         <li><a href="about.html">About</a></li>
                         <li>
@@ -53,88 +53,6 @@
                     </div>
                 </div>
             </nav>
-            <div class="header-body">
-                <div class="container">
-                    <div class="slider">
-                        <div>
-                            <h1 class="slider-count">/01</h1>
-                            <div class="progress">
-                                <div></div>
-                            </div>
-                            <p class="slider-cntrl active">
-                                Current Project
-                            </p>
-                            <p class="slider-cntrl">
-                                Upcoming Project
-                            </p>
-                            <p class="slider-cntrl">
-                                Future Project
-                            </p>
-                        </div>
-                    </div>
-                    <div>
-                        <div>
-                            <h1 class="title">Analyse Your Gameplay!</h1>
-                            <p>
-                                Introducing
-                                <span class="sub-title">
-                                    top of the class machine learning methods
-                                </span>,
-                                analysing your gameplay and helping you become a better player!
-                                <u>
-                                    Deep Learning to achieve a new state of the art mechanism
-                                </u>
-                            </p>
-                            <ul class="pagination-mobile">
-                                <li class="pag-active"></li>
-                                <li></li>
-                                <li></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="header-bottom">
-                <div class="container">
-                    <div>
-                        <div class="item">
-                            <h4>DEVELOPMENT NEWS</h4>
-                            <small>
-                                Started working on the Project 1 page @Nicolai
-                                Lindner
-                            </small>
-                            <small>
-                                March 03-07
-                            </small>
-                            <a href="#">Read More</a>
-                        </div>
-                        <div class="item item-centered">
-                            <small>
-                                Started working on the datatable we connect everything onto
-                                @Moritz Palm
-                            </small>
-                            <small>
-                                March 03-07
-                            </small>
-                        </div>
-                    </div>
-
-                    <div>
-                        <img src="../img/Pepe1.png" alt="img" class="thumbnail" />
-                        <div class="item">
-                            <h4>Latest Updates</h4>
-                            <small>
-                                We added the html browsing
-                                <span class="sub-title">
-                                    We added some nice good looking animations and mobile functionality
-                                </span>, also we started adding the first page for our project and started with the
-                                database
-                            </small>
-                            <a href="#">Read More</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </main>
 
         <div class="menu">
@@ -164,8 +82,6 @@
                 <li><a href="#">Tw</a></li>
             </ul>
         </div>
-        <!--Chatbotintegration in html-->
-        
 
     </header>
     <script>
@@ -317,34 +233,6 @@
             autoSlide = setInterval(nextSlide, 10000)
         }
 
-
-
-
-        //Chatbot + window functionality
-
-        var chatbox = document.getElementById("chatbox");
-        var isDragging = false;
-        var offset = {
-            x: 0,
-            y: 0
-        };
-
-        chatbox.addEventListener("mousedown", function (e) {
-            isDragging = true;
-            offset.x = e.offsetX;
-            offset.y = e.offsetY;
-        });
-
-        document.addEventListener("mousemove", function (e) {
-            if (isDragging) {
-                chatbox.style.left = e.pageX - offset.x + "px";
-                chatbox.style.top = e.pageY - offset.y + "px";
-            }
-        });
-
-        document.addEventListener("mouseup", function () {
-            isDragging = false;
-        });
     </script>
 
 

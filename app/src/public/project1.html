@@ -33,8 +33,8 @@
                         </a>
                     </div>
                     <ul>
-                        <li><a href="index.html" class="link-active">Home</a></li>
-                        <li><a href="project1.html">Project 1</a></li>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="project1.html" class="link-active">Project 1</a></li>
                         <li><a href="project2.html">Project 2</a></li>
                         <li><a href="project3.html">Project 3</a></li>
                         <li><a href="about.html">About</a></li>
@@ -81,6 +81,14 @@
                 <li><a href="#">In</a></li>
                 <li><a href="#">Tw</a></li>
             </ul>
+        </div>
+
+        <!--Creating a good looking search bar that commits the document to the datatable-->
+        <div class="searchbar">
+            <form method="get"> 
+                <input type ="text" placeholder="Type in your summoner"></input>
+                <button type="submit">Search</button>
+            </form>
         </div>
 
     </header>
@@ -232,35 +240,6 @@
             //Restart Auto Slider
             autoSlide = setInterval(nextSlide, 10000)
         }
-
-
-
-
-        //Chatbot + window functionality
-
-        var chatbox = document.getElementById("chatbox");
-        var isDragging = false;
-        var offset = {
-            x: 0,
-            y: 0
-        };
-
-        chatbox.addEventListener("mousedown", function (e) {
-            isDragging = true;
-            offset.x = e.offsetX;
-            offset.y = e.offsetY;
-        });
-
-        document.addEventListener("mousemove", function (e) {
-            if (isDragging) {
-                chatbox.style.left = e.pageX - offset.x + "px";
-                chatbox.style.top = e.pageY - offset.y + "px";
-            }
-        });
-
-        document.addEventListener("mouseup", function () {
-            isDragging = false;
-        });
     </script>
 
 

@@ -354,17 +354,19 @@
 
   /* CHATBOT*/
 
-  #chatbox {
+
+
+
+  
+  /*Creating the search bar on project1.html*/
+  .searchbar {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 300px;
-    height: 400px;
-    background-color: white;
-    border: 1px solid black;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
   
-  
+
   
 
 
