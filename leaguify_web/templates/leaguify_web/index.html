@@ -4,11 +4,11 @@
 <head>
     <title>Leaguify</title>
 </head>
-
+{% load static %}
 <body>
     <header>
         <img src="../static/Amogus.png" alt="img" class="main-image" />
-        <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+        <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" media="screen" />
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
         <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
         <aside>
@@ -83,6 +83,21 @@
                                 analysing your gameplay and helping you become a better player!
                                 <u>
                                     Deep Learning to achieve a new state of the art mechanism
+                                </u>
+                                <u>
+                                    {% if mainChamps %}
+                                        <ul>
+                                            {% for champ in mainChamps %}
+                                                <li>
+                                                    <a href="/leaguify_web/{{ champ.id }}/">{{champ}}</a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% else %}
+                                    <p>
+                                        No champions available.
+                                    </p>
+                                    {% endif%}
                                 </u>
                             </p>
                             <ul class="pagination-mobile">
