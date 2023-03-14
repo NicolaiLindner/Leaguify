@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Leaguify</title>
+</head>
+
+<body>
+    <header>
+        <img src="../img/Amogus.png" alt="img" class="main-image" />
+        <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+        <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+        <aside>
+            <div class="menu-btn">
+                <span class="material-icons-outlined">
+                    segment
+                </span>
+            </div>
+            <ul class="social">
+                <li><a href="#">Fb</a></li>
+                <li><a href="#">In</a></li>
+                <li><a href="#">Tw</a></li>
+            </ul>
+        </aside>
+
+        <main>
+            <nav>
+                <div class="container">
+                    <div>
+                        <a href="index.html" class="brand">
+                            Leaguify
+                        </a>
+                    </div>
+                    <ul>
+                        <li><a href="index.html" class="link-active">Home</a></li>
+                        <li><a href="project1.html">Project 1</a></li>
+                        <li><a href="project2.html">Project 2</a></li>
+                        <li><a href="project3.html">Project 3</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li>
+                            <a href="#">
+                                <span class="material-icons-outlined">
+                                    search
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="menu-btn">
+                        <span class="material-icons-outlined">
+                            segment
+                        </span>
+                    </div>
+                </div>
+            </nav>
+        </main>
+
+        <div class="menu">
+            <ul>
+                <li><a href="#">Extra Space 1</a></li>
+                <li><a href="#">Extra Space 2</a></li>
+                <li><a href="#">Extra Space 3</a></li>
+                <li><a href="#">Extra Space 4</a></li>
+            </ul>
+            <ul>
+                <li><a href="index.html" class="link-active">Home</a></li>
+                <li><a href="#">Project 1</a></li>
+                <li><a href="#">Project 2</a></li>
+                <li><a href="#">Project 3</a></li>
+                <li><a href="#">About</a></li>
+                <li>
+                    <a href="#">
+                        <span class="material-icons-outlined">
+                            search
+                        </span>
+                    </a>
+                </li>
+            </ul>
+            <ul>
+                <li><a href="#">Fb</a></li>
+                <li><a href="#">In</a></li>
+                <li><a href="#">Tw</a></li>
+            </ul>
+        </div>
+
+    </header>
+    <script>
+        //Navbar / Sidebar Menu
+        const menuBtn = document.querySelectorAll('.menu-btn');
+        const menu = document.querySelector('.menu');
+        const links = document.querySelectorAll('.menu li');
+
+        //Open and shut the sidebar
+        menuBtn.forEach(btn => {
+            btn.addEventListener('click', sideNavToggle);
+        });
+
+        function sideNavToggle() {
+            //Menu popup delay
+            let delay = 100;
+            //Toggle open class
+            menu.classList.toggle('menu-open');
+
+            //Sidenav Link Slide Animation
+            setTimeout(() => {
+                //Reset animations after all of them end
+                resetAnimations();
+            }, delay * (links.length + 1));
+
+            //Link animation
+            links.forEach(link => {
+                //Opacity
+                link.style.opacity = "0";
+                //Animation
+                link.style.animation = "slideIn 400ms ease-in-out forwards";
+                //Delay
+                link.style.animationDelay = delay + "ms";
+
+                //Icrease delay for each links
+                delay += 100;
+            });
+
+            /* Reset animations so they can be activated again*/
+            function resetAnimations() {
+                //Select all links
+                links.forEach(link => {
+                    //Remove animation
+                    link.style.animation = "none";
+                    //Set opacity to default
+                    link.style.opacity = "1";
+                });
+            }
+        }
+
+        //Slider for different topics -> Animation
+        const cntrl = document.querySelectorAll('.slider-cntrl');
+        const cntrlMob = document.querySelectorAll('.pagination-mobile > li');
+        const title = document.querySelector('.title');
+        const subTitle = document.querySelectorAll('.sub-title');
+        const img = document.querySelector('.thumbnail');
+        const count = document.querySelector('.slider-count');
+        const progress = document.querySelector('.progress div');
+
+        let id = 0;
+
+        //Data
+        //Array with images for the slider
+        const images = [
+            '../static/Pepe1.png',
+            '../static/Pepe1.png',
+            '../static/Pepe1.png',
+        ];
+
+        //Progress widths for the slider
+        const progressWidth = [
+            '33%',
+            '66%',
+            '100%',
+        ];
+
+        const text = [
+            'Analyse Your Gameplay',
+            'Get A Spotify Playlist',
+            'Future Project...'
+        ];
+
+        //Pagination controls
+        for (let i = 0; i < cntrl.length; i++) {
+            //Add click event to all paginations
+            cntrl[i].addEventListener('click', () => {
+                //Run slider function
+                slider(i);
+                //Set id to clicked pagination index
+                id = i;
+                //Stop auto slide
+                stopAutoSlide();
+            });
+            //Click event on mobile devices
+            cntrlMob[i].addEventListener('click', () => {
+                //Run slider function
+                slider(i);
+                //Set id to clicked pagination index
+                id = i;
+                //Stop Auto Slide
+                stopAutoSlide();
+            });
+        }
+
+        function slider(i) {
+            //Change thumbnail image
+            img.src = images[i];
+            //Progress progression
+            progress.style.width = progressWidth[i];
+            //Change Title
+            title.innerText = text[i];
+            subTitle.forEach(sub => {
+                sub.innerText = "Hello I am under water";
+            });
+
+            //Change slide number
+            count.innerText = "/0" + (i + 1);
+
+            //Remove active class from all
+            for (let i = 0; i < cntrl.length; i++) {
+                cntrl[i].classList.remove('active');
+                cntrlMob[i].classList.remove('pag-active');
+            }
+
+            //Reset active class to clicked element
+            cntrl[i].classList.add('active');
+            cntrlMob[i].classList.add('pag-active');
+        }
+
+        //Slider automation
+        function nextSlide() {
+            //increment img id
+            id++
+            //Check if id is greater than the number of available slides
+            if (id > cntrl.length - 1) {
+                id = 0;
+            }
+            //Run Slider function
+            slider(id);
+        }
+        //Automation slider
+        let autoSlide = setInterval(nextSlide, 10000);
+
+        //Stop autoSlide
+        function stopAutoSlide() {
+            clearInterval(autoSlide);
+
+            //Restart Auto Slider
+            autoSlide = setInterval(nextSlide, 10000)
+        }
+
+
+
+
+        //Chatbot + window functionality
+
+        var chatbox = document.getElementById("chatbox");
+        var isDragging = false;
+        var offset = {
+            x: 0,
+            y: 0
+        };
+
+        chatbox.addEventListener("mousedown", function (e) {
+            isDragging = true;
+            offset.x = e.offsetX;
+            offset.y = e.offsetY;
+        });
+
+        document.addEventListener("mousemove", function (e) {
+            if (isDragging) {
+                chatbox.style.left = e.pageX - offset.x + "px";
+                chatbox.style.top = e.pageY - offset.y + "px";
+            }
+        });
+
+        document.addEventListener("mouseup", function () {
+            isDragging = false;
+        });
+    </script>
+
+
+</body>
+
+</html>
