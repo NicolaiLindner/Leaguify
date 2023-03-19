@@ -85,10 +85,31 @@
 
         <!--Creating a good looking search bar that commits the document to the datatable-->
         <div class="searchbar">
-            <form method="get"> 
-                <input type ="text" placeholder="Type in your summoner"></input>
+            <form method="post" action="{% url 'search' %}">
+                {% csrf_token %}
+                {{ form.as_p }}
                 <button type="submit">Search</button>
             </form>
+            {% if summoner %}
+            <table id="summoner-data">
+                <thead>
+                    <tr>
+                        <th>Summoner Name</th>
+                        <th>Main Champion</th>
+                        <th>Rank</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ summoner.name }}</td>
+                        <td>{{ summoner.main_champion }}</td>
+                        <td>{{ summoner.rank }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            {% endif %}
+
+
         </div>
 
     </header>
@@ -240,6 +261,8 @@
             //Restart Auto Slider
             autoSlide = setInterval(nextSlide, 10000)
         }
+
+        //Script to fetch the data whenever the input field changes and display the information in the table:
     </script>
 
 
