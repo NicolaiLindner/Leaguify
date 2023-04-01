@@ -24,6 +24,18 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         ? Math.round((wins / (wins + losses)) * 100) + "%"
         : "Unknown";
 
+    // get profile icon ID
+    const profileIconId = summonerData.profileIconId;
+
+    // get version
+    const versionResponse = await axios.get(
+      "https://ddragon.leagueoflegends.com/api/versions.json"
+    );
+    const version = versionResponse.data[0];
+
+    // construct profile icon URL
+    const profileIconUrl = `https://ddragon.leagueoflegends.com/cdn/${version}/img/profileicon/${profileIconId}.png`;
+
     // return summoner and ranked data to client
     res.status(200).json({
       summonerName: summonerData.name,
@@ -35,6 +47,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       summonerWins: wins,
       summonerLosses: losses,
       summonerWinrate: winrate,
+      summonerIconUrl: profileIconUrl,
     });
   } catch (error) {
     console.error(error);
