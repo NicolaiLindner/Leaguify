@@ -7,6 +7,9 @@ import {
   Image,
   Card,
   Text,
+  Row,
+  Col,
+  Table,
 } from "@nextui-org/react";
 
 type ChampionMastery = {
@@ -152,29 +155,51 @@ export default function Project1() {
       )}
       {championMasteries.length > 0 && (
         <div className="champion-masteries">
-          <Card>
-            <div className="champion-masteries-info">
-              <Text h4>Most Played Champions</Text>
+          <Text h4>Most Played Champions</Text>
+          <Table
+            aria-label="Most played champions table"
+            css={{
+              height: "auto",
+              minWidth: "100%",
+            }}
+          >
+            <Table.Header>
+              <Table.Column>Champion</Table.Column>
+              <Table.Column>Name</Table.Column>
+              <Table.Column>Mastery Points</Table.Column>
+            </Table.Header>
+            <Table.Body>
               {championMasteries.slice(0, 5).map((mastery, index) => {
-                // Use getChampionInfo function to get champion information (name and imageUrl)
                 const championInfo = getChampionInfo(mastery.championId);
                 return (
-                  <div key={index} className="champion-mastery">
-                    <Image
-                      src={championInfo.imageUrl}
-                      alt={`${championInfo.name} profile icon`}
-                      width={40}
-                      height={40}
-                    />
-                    <Text>
-                      {index + 1}. {championInfo.name}:{" "}
+                  <Table.Row key={index}>
+                    <Table.Cell
+                      css={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        paddingLeft: 0,
+                        paddingRight: 0,
+                      }}
+                    >
+                      <Image
+                        src={championInfo.imageUrl}
+                        alt={`${championInfo.name} profile icon`}
+                        width={40}
+                        height={40}
+                      />
+                    </Table.Cell>
+                    <Table.Cell>
+                      {index + 1}. {championInfo.name}
+                    </Table.Cell>
+                    <Table.Cell>
                       {mastery.championPoints.toLocaleString()} Points
-                    </Text>
-                  </div>
+                    </Table.Cell>
+                  </Table.Row>
                 );
               })}
-            </div>
-          </Card>
+            </Table.Body>
+          </Table>
         </div>
       )}
       <style jsx>{`
@@ -192,6 +217,16 @@ export default function Project1() {
         }
         .summoner-info {
           padding: 1rem;
+        }
+        .champion-masteries {
+          margin: 2rem auto;
+          max-width: 600px;
+        }
+        .champion-masteries-info {
+          padding: 1rem;
+        }
+        .champion-mastery {
+          margin-bottom: 0.5rem;
         }
       `}</style>
     </div>
