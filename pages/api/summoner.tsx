@@ -5,15 +5,27 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const summonerName = req.query.summonerName as string;
 
   try {
-    const summonerResponse = await axios.get(
-      `https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${process.env.RIOT_API_KEY}`
-    );
-    const summonerData = summonerResponse.data;
+    const [summonerResponse, versionResponse] = await Promise.all([
+      axios.get(
+        `https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${process.env.RIOT_API_KEY}`
+      ),
+      axios.get("https://ddragon.leagueoflegends.com/api/versions.json"),
+    ]);
 
-    const rankedResponse = await axios.get(
-      `https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/${summonerData.id}?api_key=${process.env.RIOT_API_KEY}`
-    );
+    const summonerData = summonerResponse.data;
+    const version = versionResponse.data[0];
+
+    const [rankedResponse, championMasteriesResponse] = await Promise.all([
+      axios.get(
+        `https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/${summonerData.id}?api_key=${process.env.RIOT_API_KEY}`
+      ),
+      axios.get(
+        `https://euw1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${summonerData.id}?api_key=${process.env.RIOT_API_KEY}`
+      ),
+    ]);
+
     const rankedData = rankedResponse.data[0];
+    const championMasteries = championMasteriesResponse.data;
 
     // additional data
     const lp = rankedData?.leaguePoints ?? "Unknown";
@@ -27,16 +39,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     // get profile icon ID
     const profileIconId = summonerData.profileIconId;
 
-    // get version
-    const versionResponse = await axios.get(
-      "https://ddragon.leagueoflegends.com/api/versions.json"
-    );
-    const version = versionResponse.data[0];
-
     // construct profile icon URL
     const profileIconUrl = `https://ddragon.leagueoflegends.com/cdn/${version}/img/profileicon/${profileIconId}.png`;
 
-    // return summoner and ranked data to client
+    // return summoner, ranked, and champion masteries data to client
     res.status(200).json({
       summonerName: summonerData.name,
       summonerLevel: summonerData.summonerLevel,
@@ -48,6 +54,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       summonerLosses: losses,
       summonerWinrate: winrate,
       summonerIconUrl: profileIconUrl,
+      championMasteries: championMasteries,
     });
   } catch (error) {
     console.error(error);
