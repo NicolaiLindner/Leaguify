@@ -55,17 +55,29 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       }
     );
 
-    const rankedData: RankedData[] = rankedResponse.data.map((entry: any) => ({
-      tier: entry.tier,
-      rank: entry.rank,
-      leaguePoints: entry.leaguePoints,
-      wins: entry.wins,
-      losses: entry.losses,
-      winRate: (entry.wins / (entry.wins + entry.losses)) * 100,
-      imageUrl: `https://opgg-static.akamaized.net/images/medals/${entry.tier.toLowerCase()}_${
-        entry.rank
-      }.png?image=q_auto:best&v=1`,
-    }));
+    const rankedData: RankedData[] = rankedResponse.data.length
+      ? rankedResponse.data.map((entry: any) => ({
+          tier: entry.tier,
+          rank: entry.rank,
+          leaguePoints: entry.leaguePoints,
+          wins: entry.wins,
+          losses: entry.losses,
+          winRate: (entry.wins / (entry.wins + entry.losses)) * 100,
+          imageUrl: `/ranked_images/${entry.tier.toLowerCase()}_${entry.rank.toLowerCase()}.webp`,
+        }))
+      : [
+          {
+            tier: "Unranked",
+            rank: "",
+            leaguePoints: 0,
+            wins: 0,
+            losses: 0,
+            winRate: 0,
+            imageUrl: "/ranked_images/unranked.webp",
+          },
+        ];
+
+    console.log("rankedData:", rankedData);
 
     res.status(200).json({ summonerData: summonerResponse.data, rankedData });
   } catch (error: any) {
