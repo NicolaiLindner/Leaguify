@@ -55,6 +55,14 @@ const Project3 = () => {
       console.error("Failed to fetch summoner data:", error.message);
     }
   };
+  //Color coding the winrate
+  const getWinRateColor = (winRate: number) => {
+    if (winRate >= 80) return "#FFD700"; // Gold
+    if (winRate >= 65) return "#32CD32"; // Lime Green
+    if (winRate >= 50) return "#00BFFF"; // Deep Sky Blue
+    if (winRate >= 40) return "#FF6347"; // Tomato
+    return "#8B0000"; // Dark Red
+  };
 
   return (
     <div>
@@ -86,6 +94,11 @@ const Project3 = () => {
                     <Badge color="primary" size="lg" variant="bordered">
                       Level: {summonerData.summonerLevel}
                     </Badge>
+                    {summonerData.hotStreak && (
+                      <Badge color="success" size="lg" variant="bordered">
+                        Hot Streak
+                      </Badge>
+                    )}
                   </div>
                 </div>
               </div>
@@ -112,23 +125,44 @@ const Project3 = () => {
                     color="gradient"
                   />
                 </div>
-                <div>
+                <div style={{ marginLeft: "10px" }}>
                   <h3
                     style={{
-                      fontSize: "32px",
                       marginBottom: "0",
+                      fontSize: "32px",
+                      whiteSpace: "nowrap",
                     }}
                   >
-                    {`${data.tier} ${data.rank}`}
+                    {`${
+                      data.tier.charAt(0).toUpperCase() +
+                      data.tier.slice(1).toLowerCase()
+                    } ${data.rank}`}
                   </h3>
-                  <Text style={{ fontSize: "18px" }}>
+                  <Badge color="primary" size="lg" variant="bordered">
                     {data.leaguePoints} LP
-                  </Text>
+                  </Badge>
                 </div>
                 <div style={{ marginLeft: "20px" }}>
-                  <Text>Wins: {data.wins}</Text>
-                  <Text>Losses: {data.losses}</Text>
-                  <Text>Win Rate: {data.winRate.toFixed(2)}%</Text>
+                  {data.provisional && (
+                    <div>
+                      <Text>Provisional games:</Text>
+                      <Text>Wins: {data.miniSeries?.wins}</Text>
+                      <Text>Losses: {data.miniSeries?.losses}</Text>
+                      <Text>Progress: {data.miniSeries?.progress}</Text>
+                    </div>
+                  )}
+                  {!data.provisional && (
+                    <div>
+                      <Text>Wins: {data.wins}</Text>
+                      <Text>Losses: {data.losses}</Text>
+                      <Text>
+                        Win Rate:{" "}
+                        <span style={{ color: getWinRateColor(data.winRate) }}>
+                          {data.winRate.toFixed(2)}%
+                        </span>
+                      </Text>
+                    </div>
+                  )}
                 </div>
               </div>
             </Card>

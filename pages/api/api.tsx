@@ -11,6 +11,10 @@ export interface SummonerData {
   profileIconId: number;
   revisionDate: number;
   summonerLevel: number;
+  hotStreak: boolean;
+  veteran: boolean;
+  freshBlood: boolean;
+  inactive: boolean;
 }
 
 export interface RankedData {
@@ -21,6 +25,13 @@ export interface RankedData {
   losses: number;
   winRate: number;
   imageUrl: string;
+  provisional: boolean;
+  miniSeries?: {
+    target: number;
+    wins: number;
+    losses: number;
+    progress: string;
+  };
 }
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -56,15 +67,23 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     );
 
     const rankedData: RankedData[] = rankedResponse.data.length
-      ? rankedResponse.data.map((entry: any) => ({
-          tier: entry.tier,
-          rank: entry.rank,
-          leaguePoints: entry.leaguePoints,
-          wins: entry.wins,
-          losses: entry.losses,
-          winRate: (entry.wins / (entry.wins + entry.losses)) * 100,
-          imageUrl: `/ranked_images/${entry.tier.toLowerCase()}_${entry.rank.toLowerCase()}.webp`,
-        }))
+      ? rankedResponse.data.map((entry: any) => {
+          const imageUrl = entry.hasOwnProperty("miniSeries")
+            ? "/ranked_images/provisional.webp"
+            : `/ranked_images/${entry.tier.toLowerCase()}_${entry.rank.toLowerCase()}.webp`;
+
+          return {
+            tier: entry.tier,
+            rank: entry.rank,
+            leaguePoints: entry.leaguePoints,
+            wins: entry.wins,
+            losses: entry.losses,
+            winRate: (entry.wins / (entry.wins + entry.losses)) * 100,
+            imageUrl,
+            provisional: entry.hasOwnProperty("miniSeries"),
+            miniSeries: entry.miniSeries,
+          };
+        })
       : [
           {
             tier: "Unranked",
@@ -74,6 +93,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             losses: 0,
             winRate: 0,
             imageUrl: "/ranked_images/unranked.webp",
+            provisional: false,
           },
         ];
 
