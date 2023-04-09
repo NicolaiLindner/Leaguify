@@ -1,6 +1,19 @@
-import { useState } from "react";
+import Project1 from "../components/MatchHistoryComponent";
+import { useState, useEffect } from "react";
 import SearchBar from "../components/SearchBar";
 import { SummonerData, RankedData } from "./api/api";
+import {
+  Match,
+  ParticipantDto,
+  PerksDto,
+  PerkStatsDto,
+  PerkStyleDto,
+  PerkStyleSelectionDto,
+  TeamDto,
+  BanDto,
+  ObjectivesDto,
+  ObjectiveDto,
+} from "../pages/project1";
 import {
   Grid,
   Avatar,
@@ -13,6 +26,7 @@ import {
   Col,
   Row,
 } from "@nextui-org/react";
+import MatchHistoryComponent from "../components/MatchHistoryComponent";
 
 interface ExtendedSummonerData extends SummonerData {
   profileIconUrl: string;
@@ -24,37 +38,79 @@ const Project3 = () => {
   );
   const [rankedData, setRankedData] = useState<RankedData[]>([]);
 
+  // Add the relevant state variables from the test project
+  const [level, setLevel] = useState<number | null>(null);
+  const [puuid, setPuuid] = useState<string | null>(null);
+  const [matchIds, setMatchIds] = useState<
+    { matchId: string; matchDetails: any }[] | null
+  >(null);
+
+  // Relevant match data
+  const [gameMode, setGameMode] = useState<string | null>(null);
+  const [gameType, setGameType] = useState<string | null>(null);
+  const [gameDuration, setGameDuration] = useState<number | null>(null);
+  const [gameStartTimestamp, setGameStartTimestamp] = useState<number | null>(
+    null
+  );
+
+  const findParticipantData = (
+    participants: Match["info"]["participants"],
+    puuid: string
+  ) => {
+    return participants.find((participant) => participant.puuid === puuid);
+  };
+
+  const findTeamData = (teams: Match["info"]["teams"], teamId: number) => {
+    return teams.find((team) => team.teamId === teamId);
+  };
+
+  const getMatchRegion = (region: string) => {
+    switch (region) {
+      case "euw1":
+        return "europe";
+      case "na1":
+        return "americas";
+      case "eun1":
+        return "europe";
+      // Add more regions if needed
+      default:
+        return region;
+    }
+  };
+
   const fetchSummonerData = async (summonerName: string, region: string) => {
     try {
-      const response = await fetch(
-        `/api/api?summonerName=${summonerName}&region=${region}`
+      const summonerResponse = await fetch(
+        `/api/api?summonerName=${encodeURIComponent(
+          summonerName
+        )}&region=${encodeURIComponent(region)}`
       );
 
-      // Log the raw response and status code
-      console.log("Raw response:", response);
-      console.log("Status code:", response.status);
-
-      const data = await response.json();
-      console.log("Parsed data:", data); // Add this log statement
-      console.log("Image URL:", data.rankedData[0].imageUrl);
-
-      if (!response.ok) {
-        throw new Error(data.error);
+      if (!summonerResponse.ok) {
+        const errorData = await summonerResponse.json();
+        throw new Error(errorData.error);
       }
 
-      const profileIconUrl = `https://ddragon.leagueoflegends.com/cdn/11.21.1/img/profileicon/${data.summonerData.profileIconId}.png`;
+      const summonerData = await summonerResponse.json();
+      const profileIconUrl = `https://ddragon.leagueoflegends.com/cdn/11.21.1/img/profileicon/${summonerData.summonerData.profileIconId}.png`;
+      setSummonerData({ ...summonerData.summonerData, profileIconUrl });
 
-      setSummonerData({ ...data.summonerData, profileIconUrl });
-      if (data.rankedData && data.rankedData.length > 0) {
-        setRankedData(data.rankedData);
-        console.log("Image URL:", data.rankedData[0].imageUrl);
+      if (summonerData.rankedData && summonerData.rankedData.length > 0) {
+        setRankedData(summonerData.rankedData);
       } else {
         setRankedData([]);
       }
-    } catch (error: any) {
-      console.error("Failed to fetch summoner data:", error.message);
+
+      // Set level and puuid for later use
+      setLevel(summonerData.summonerData.summonerLevel);
+      setPuuid(summonerData.summonerData.puuid);
+    } catch (error) {
+      console.error("Error fetching summoner data:", error);
+      setSummonerData(null);
+      setRankedData([]);
     }
   };
+
   //Color coding the winrate
   const getWinRateColor = (winRate: number) => {
     if (winRate >= 80) return "#FFD700"; // Gold
@@ -68,7 +124,7 @@ const Project3 = () => {
     <div>
       <SearchBar onSearch={fetchSummonerData} />
       <Grid.Container gap={2} justify="center">
-        <Grid xs={12} md={6}>
+        <Grid xs={12} md={3}>
           {summonerData && (
             <Card>
               <div style={{ textAlign: "left", padding: "1rem" }}>
@@ -94,18 +150,13 @@ const Project3 = () => {
                     <Badge color="primary" size="lg" variant="bordered">
                       Level: {summonerData.summonerLevel}
                     </Badge>
-                    {summonerData.hotStreak && (
-                      <Badge color="success" size="lg" variant="bordered">
-                        Hot Streak
-                      </Badge>
-                    )}
                   </div>
                 </div>
               </div>
             </Card>
           )}
         </Grid>
-        <Grid xs={12} md={6}>
+        <Grid xs={12} md={3}>
           {rankedData.map((data) => (
             <Card key={`${data.tier}-${data.rank}`}>
               <div
@@ -115,7 +166,7 @@ const Project3 = () => {
                   padding: "1rem",
                 }}
               >
-                <div style={{ marginRight: "10px" }}>
+                <div style={{ display: "flex", alignItems: "center" }}>
                   <Avatar
                     src={data.imageUrl}
                     alt={`${data.tier} ${data.rank}`}
@@ -167,6 +218,28 @@ const Project3 = () => {
               </div>
             </Card>
           ))}
+        </Grid>
+        <Grid xs={12} md={3}>
+          {rankedData.map((data) => (
+            <Card key={`${data.tier}-${data.rank}`}>
+              *Placeholder for future content*
+            </Card>
+          ))}
+        </Grid>
+        <Grid xs={12} md={3}>
+          {rankedData.map((data) => (
+            <Card key={`${data.tier}-${data.rank}`}>
+              *Placeholder for future content*
+            </Card>
+          ))}
+        </Grid>
+        <Grid xs={3}>
+          <Card>Champion Information Placeholder</Card>
+        </Grid>
+        <Grid xs={9}>
+          <Card>
+            <Project1 />
+          </Card>
         </Grid>
       </Grid.Container>
     </div>
