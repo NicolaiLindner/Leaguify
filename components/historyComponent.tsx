@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import SearchBar from "../components/SearchBar";
 import { Collapse } from "@nextui-org/react";
 import {
   getChampionIconURL,
@@ -239,7 +238,10 @@ const findTeamData = (teams: Match["info"]["teams"], teamId: number) => {
   return teams.find((team) => team.teamId === teamId);
 };
 
-const MatchHistoryComponent: React.FC = () => {
+const historyComponent: React.FC<MatchHistoryComponentProps> = ({
+  summonerName,
+  region,
+}) => {
   const [level, setLevel] = useState<number | null>(null);
   const [puuid, setPuuid] = useState<string | null>(null);
   const [matchIds, setMatchIds] = useState<
@@ -339,10 +341,8 @@ const MatchHistoryComponent: React.FC = () => {
       }
     }
   };
-
   return (
     <div>
-      <SearchBar onSearch={handleSearch} />
       {matchIds && (
         <div>
           <Collapse.Group>
@@ -449,4 +449,4 @@ const MatchHistoryComponent: React.FC = () => {
   );
 };
 
-export default MatchHistoryComponent;
+export default historyComponent;
